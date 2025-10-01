@@ -6,13 +6,80 @@ import yfinance as yf
 from keras.models import load_model
 import streamlit as st
 
-
 start = '2009-12-31'
-end = '2020-01-01'
+end = '2025-09-30'
 
 st.title('Stock Trend Prediction')
 
-user_input = st.text_input('Enter Stock Ticker', 'AAPL')
+# user_input = st.text_input('Enter Stock Ticker', 'AAPL')
+st.subheader("Choose Stock Input Method")
+option = st.radio("Select Input Type:", ["Dropdown", "Manual Entry"])
+
+if option == "Dropdown":
+    stock_list = {
+        "SBIN.NS" : "State Bank Of India",
+        "POWERGRID.NS" : "Power Grid Corporation Of India Ltd",
+        "NTPC.NS" : "NTPC Ltd",
+        "HINDUNILVR.NS" : "Hindustan Unilever Ltd",
+        "TATACONSUM.NS" : "Tata Consumer Products Ltd",
+        "NESTLEIND.NS" : "Nestle India Ltd",
+        "JSWSTEEL.NS" : "JSW Steel Ltd",
+        "MARUTI.NS" : "Maruti Suzuki India Ltd",
+        "HCLTECH.NS" : "HCL Technologies Ltd",
+        "ONGC.NS" : "Oil & Natural Gas Corporation Ltd",
+        "CIPLA.NS" : "Cipla Ltd",
+        "LT.NS" : "Larsen & Toubro Ltd",
+        "ASIANPAINT.NS" : "Asian Paints Ltd",
+        "BAJFINANCE.NS" : "Bajaj Finance Ltd",
+        "EICHERMOT.NS" : "Eicher Motors Ltd",
+        "TRENT.NS" : "Trent Ltd",
+        "INFY.NS" : "Infosys Ltd",
+        "GRASIM.NS" : "Grasim Industries Ltd",
+        "SBILIFE.NS" : "SBI Life Insurance Company Ltd",
+        "SUNPHARMA.NS" : "Sun Pharmaceutical Industries Ltd",
+        "TATASTEEL.NS" : "Tata Steel Ltd",
+        "TATAMOTORS.NS" : "Tata Motors Ltd",
+        "ITC.NS" : "ITC Ltd",
+        "RELIANCE.NS" : "Reliance Industries Ltd",
+        "HDFCLIFE.NS" : "HDFC Life Insurance Company Ltd",
+        "HINDALCO.NS" : "Hindalco Industries Ltd",
+        "HDFCBANK.NS" : "HDFC Bank Ltd",
+        "HEROMOTOCO.NS" : "Hero MotoCorp Ltd",
+        "ULTRACEMCO.NS" : "Ultratech Cement Ltd",
+        "COALINDIA.NS" : "Coal India Ltd",
+        "KOTAKBANK.NS" : "Kotak Mahindra Bank Ltd",
+        "BHARTIARTL.NS" : "Bharti Airtel Ltd",
+        "AXISBANK.NS" : "Axis Bank Ltd",
+        "ICICIBANK.NS" : "ICICI Bank Ltd",
+        "ADANIPORTS.NS" : "Adani Ports and Special Economic Zone Ltd",
+        "SHRIRAMFIN.NS" : "Shriram Finance Ltd",
+        "ADANIENT.NS" : "Adani Enterprises Ltd",
+        "BAJAJ-AUTO.NS" : "Bajaj Auto Ltd",
+        "TITAN.NS" : "Titan Company Ltd",
+        "BAJAJFINSV.NS" : "Bajaj Finserv Ltd",
+        "APOLLOHOSP.NS" : "Apollo Hospitals Enterprise Ltd ",
+        "DRREDDY.NS" : "Dr. Reddys Laboratories Ltd",
+        "BEL.NS" : "Bharat Electronics Ltd",
+        "JIOFIN.NS" : "JIO Financial Services Ltd",
+        "TCS.NS" : "Tata Consultancy Services Ltd",
+        "TECHM.NS" : "Tech Mahindra Ltd",
+        "WIPRO.NS" : "Wipro Ltd",
+        "ETERNAL.NS" : "Eternal Ltd",
+        "M&M.NS" : "Mahindra & Mahindra Ltd",
+        "INDUSINDBK.NS" : "IndusInd Bank Ltd",
+                }
+
+    # Display format: "Ticker - Full Name"
+    stock_display = [f"{ticker} - {name}" for ticker, name in stock_list.items()]
+    selected_stock = st.selectbox("Select Stock", stock_display)
+
+    # Extract only ticker (before " - ")
+    user_input = selected_stock.split(" - ")[0]
+
+else:
+    user_input = st.text_input("Enter Stock Ticker", "SBIN.NS")
+
+
 # Download data with Adj Close
 df = yf.download(user_input, start, end)
 
