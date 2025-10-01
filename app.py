@@ -90,7 +90,7 @@ df = yf.download(user_input, start, end)
 df = df[['High', 'Low', 'Open', 'Close', 'Volume']]
 
 # Describing Data
-st.subheader('Data from 2010 - 2019')
+st.subheader('Data from 2010 - 2025')
 st.write(df.describe())
 
 # Visualizations
